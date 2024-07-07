@@ -34,5 +34,15 @@ module AuthApp
     config.middleware.use ActionDispatch::Session::CookieStore
     config.action_dispatch.cookies_same_site_protection = :lax
 
+    # Configure CORS to accept requests from your frontend
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'http://your-frontend-domain.com' # Replace with your frontend domain
+        resource '*',
+          headers: :any,
+          methods: [:get, :post, :put, :patch, :delete, :options, :head],
+          credentials: true
+      end
+    end
   end
 end
